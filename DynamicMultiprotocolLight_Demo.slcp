@@ -1,133 +1,168 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
-project_name: DynamicMultiprotocolLight_Demo
-label: DynamicMultiprotocolLight_Demo
 author: Silicon Laboratories, Inc.
+category: Zigbee Application
+component:
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_system
+- id: bluetooth_stack
+- id: cli
+  instance:
+  - example
+- id: clock_manager
+- id: gatt_configuration
+- id: iostream_recommended_stream
+- id: simple_button
+  instance:
+  - btn0
+  - btn1
+- id: simple_led
+  instance:
+  - led0
+  - led1
+- id: zigbee_address_table
+- id: zigbee_application_bootloader
+- id: zigbee_basic
+- id: zigbee_ble_dmp_cli
+- id: zigbee_ble_event_handler
+- id: zigbee_concentrator
+- id: zigbee_core_cli
+- id: zigbee_counters
+- id: zigbee_debug_print
+- id: zigbee_display
+- id: zigbee_find_and_bind_target
+- id: zigbee_gp
+- id: zigbee_green_power_client
+- id: zigbee_green_power_client_cli
+- id: zigbee_green_power_common
+- id: zigbee_groups_server
+- id: zigbee_identify
+- id: zigbee_interpan
+- id: zigbee_network_creator
+- id: zigbee_network_creator_security
+- id: zigbee_on_off
+- id: zigbee_pro_stack
+- id: zigbee_reporting
+- id: zigbee_scan_dispatch
+- id: zigbee_scenes
+- id: zigbee_security_link_keys
+- id: zigbee_source_route
+- id: zigbee_zcl_cli
+- id: zigbee_zcl_framework_core
+- id: zigbee_zll
+- id: zigbee_zll_commissioning_common
+- id: zigbee_zll_commissioning_server
+- id: zigbee_zll_identify_server
+- id: zigbee_zll_on_off_server
+- id: zigbee_zll_scenes_server
+- id: zigbee_zll_utility_server
+config_file:
+- directory: zcl
+  path: config/zcl/zcl_config.zap
+configuration:
+- name: SL_BOARD_ENABLE_VCOM
+  value: '1'
+- condition:
+  - iostream_usart
+  name: SL_IOSTREAM_USART_VCOM_FLOW_CONTROL_TYPE
+  value: usartHwFlowControlCtsAndRts
+- condition:
+  - iostream_eusart
+  name: SL_IOSTREAM_EUSART_VCOM_FLOW_CONTROL_TYPE
+  value: eusartHwFlowControlCtsAndRts
+- name: SL_CLI_MAX_INPUT_ARGUMENTS
+  value: '16'
+- name: SLI_ZIGBEE_PRIMARY_NETWORK_DEVICE_TYPE
+  value: SLI_ZIGBEE_NETWORK_DEVICE_TYPE_COORDINATOR_OR_ROUTER
+- name: SLI_ZIGBEE_PRIMARY_NETWORK_SECURITY_TYPE
+  value: SLI_ZIGBEE_NETWORK_SECURITY_TYPE_3_0
+- condition:
+  - iostream_usart
+  name: SL_IOSTREAM_USART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION
+  value: '1'
+- condition:
+  - iostream_eusart
+  name: SL_IOSTREAM_EUSART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION
+  value: '1'
+- name: SL_CLI_PROMPT_STRING
+  value: '"DMPLight>"'
+- name: SL_BT_CONFIG_USER_ADVERTISERS
+  value: '3'
+- name: SL_BT_CONFIG_MAX_CONNECTIONS
+  value: '4'
+- condition:
+  - freertos
+  name: SL_STACK_SIZE
+  value: '1024'
+- condition:
+  - micriumos_kernel
+  name: SL_STACK_SIZE
+  value: '512'
+- condition:
+  - micriumos_kernel
+  - zigbee_secure_key_storage_upgrade
+  name: SL_STACK_SIZE
+  value: '1024'
+- name: LIB_MEM_CFG_HEAP_SIZE
+  value: '0'
+- name: SL_CLI_HELP_DESCRIPTION_ENABLED
+  value: '0'
+- condition:
+  - device_series_2
+  name: NVM3_DEFAULT_NVM_SIZE
+  value: '32768'
+- name: SL_PSA_ITS_SUPPORT_V1_DRIVER
+  value: '0'
+- name: SL_PSA_ITS_SUPPORT_V2_DRIVER
+  value: '0'
+- name: SL_PSA_ITS_SUPPORT_V3_DRIVER
+  value: '1'
+- name: configTIMER_TASK_PRIORITY
+  value: '53'
+- name: configMAX_TASK_NAME_LEN
+  value: '30'
+define:
+- name: OS_CFG_COMPAT_INIT
 description: This is a sample application demonstrating a light application using
   dynamic multiprotocol (Zigbee + Bluetooth LE) and NVM3 for persistent storage. We
   recommend the use of Micrium Kernel for this sample application.
-category: Zigbee Application
 filter:
 - name: Capability
-  value: [Multiprotocol]
+  value:
+  - Multiprotocol
 - name: Device Type
-  value: [SoC]
+  value:
+  - SoC
 - name: Project Difficulty
-  value: [Advanced]
+  value:
+  - Advanced
 - name: Wireless Technology
-  value: [Bluetooth, Zigbee]
+  value:
+  - Bluetooth
+  - Zigbee
+label: DynamicMultiprotocolLight_Demo
 package: Zigbee
+project_name: DynamicMultiprotocolLight_Demo
 quality: production
 readme:
-- {path: readme.html}
-- {path: readme.html}
+- path: readme.html
+- path: readme.html
+sdk:
+  id: simplicity_sdk
+  version: 2024.6.1
 source:
-- {path: main.c}
-- {path: app.c}
-tag: ['hardware:has:lcd', prebuilt_demo, 'hardware:!shared:button:led', 'hardware:device:flash:512',
-  'hardware:device:ram:64']
-sdk: {id: simplicity_sdk, version: 2024.6.1}
+- path: main.c
+- path: app.c
+tag:
+- hardware:has:lcd
+- prebuilt_demo
+- hardware:!shared:button:led
+- hardware:device:flash:512
+- hardware:device:ram:64
 toolchain_settings: []
-component:
-- {id: EFR32MG24B210F1536IM48}
-- {id: bluetooth_feature_connection}
-- {id: bluetooth_feature_gatt}
-- {id: bluetooth_feature_gatt_server}
-- {id: bluetooth_feature_legacy_advertiser}
-- {id: bluetooth_feature_legacy_scanner}
-- {id: bluetooth_feature_sm}
-- {id: bluetooth_feature_system}
-- {id: bluetooth_stack}
-- {id: brd4002a}
-- {id: brd4186c}
-- instance: [example]
-  id: cli
-- {id: clock_manager}
-- {id: gatt_configuration}
-- {id: iostream_recommended_stream}
-- instance: [btn0, btn1]
-  id: simple_button
-- instance: [led0, led1]
-  id: simple_led
-- {id: zigbee_address_table}
-- {id: zigbee_application_bootloader}
-- {id: zigbee_basic}
-- {id: zigbee_ble_dmp_cli}
-- {id: zigbee_ble_event_handler}
-- {id: zigbee_concentrator}
-- {id: zigbee_core_cli}
-- {id: zigbee_counters}
-- {id: zigbee_debug_print}
-- {id: zigbee_display}
-- {id: zigbee_find_and_bind_target}
-- {id: zigbee_gp}
-- {id: zigbee_green_power_client}
-- {id: zigbee_green_power_client_cli}
-- {id: zigbee_green_power_common}
-- {id: zigbee_groups_server}
-- {id: zigbee_identify}
-- {id: zigbee_interpan}
-- {id: zigbee_network_creator}
-- {id: zigbee_network_creator_security}
-- {id: zigbee_on_off}
-- {id: zigbee_pro_stack}
-- {id: zigbee_reporting}
-- {id: zigbee_scan_dispatch}
-- {id: zigbee_scenes}
-- {id: zigbee_security_link_keys}
-- {id: zigbee_source_route}
-- {id: zigbee_zcl_cli}
-- {id: zigbee_zcl_framework_core}
-- {id: zigbee_zll}
-- {id: zigbee_zll_commissioning_common}
-- {id: zigbee_zll_commissioning_server}
-- {id: zigbee_zll_identify_server}
-- {id: zigbee_zll_on_off_server}
-- {id: zigbee_zll_scenes_server}
-- {id: zigbee_zll_utility_server}
-define:
-- {name: OS_CFG_COMPAT_INIT}
-config_file:
-- {path: config/zcl/zcl_config.zap, directory: zcl}
-configuration:
-- {name: SL_BOARD_ENABLE_VCOM, value: '1'}
-- condition: [iostream_usart]
-  name: SL_IOSTREAM_USART_VCOM_FLOW_CONTROL_TYPE
-  value: usartHwFlowControlCtsAndRts
-- condition: [iostream_eusart]
-  name: SL_IOSTREAM_EUSART_VCOM_FLOW_CONTROL_TYPE
-  value: eusartHwFlowControlCtsAndRts
-- {name: SL_CLI_MAX_INPUT_ARGUMENTS, value: '16'}
-- {name: SLI_ZIGBEE_PRIMARY_NETWORK_DEVICE_TYPE, value: SLI_ZIGBEE_NETWORK_DEVICE_TYPE_COORDINATOR_OR_ROUTER}
-- {name: SLI_ZIGBEE_PRIMARY_NETWORK_SECURITY_TYPE, value: SLI_ZIGBEE_NETWORK_SECURITY_TYPE_3_0}
-- condition: [iostream_usart]
-  name: SL_IOSTREAM_USART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION
-  value: '1'
-- condition: [iostream_eusart]
-  name: SL_IOSTREAM_EUSART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION
-  value: '1'
-- {name: SL_CLI_PROMPT_STRING, value: '"DMPLight>"'}
-- {name: SL_BT_CONFIG_USER_ADVERTISERS, value: '3'}
-- {name: SL_BT_CONFIG_MAX_CONNECTIONS, value: '4'}
-- condition: [freertos]
-  name: SL_STACK_SIZE
-  value: '1024'
-- condition: [micriumos_kernel]
-  name: SL_STACK_SIZE
-  value: '512'
-- condition: [micriumos_kernel, zigbee_secure_key_storage_upgrade]
-  name: SL_STACK_SIZE
-  value: '1024'
-- {name: LIB_MEM_CFG_HEAP_SIZE, value: '0'}
-- {name: SL_CLI_HELP_DESCRIPTION_ENABLED, value: '0'}
-- condition: [device_series_2]
-  name: NVM3_DEFAULT_NVM_SIZE
-  value: '32768'
-- {name: SL_PSA_ITS_SUPPORT_V1_DRIVER, value: '0'}
-- {name: SL_PSA_ITS_SUPPORT_V2_DRIVER, value: '0'}
-- {name: SL_PSA_ITS_SUPPORT_V3_DRIVER, value: '1'}
-- {name: configTIMER_TASK_PRIORITY, value: '53'}
-- {name: configMAX_TASK_NAME_LEN, value: '30'}
 ui_hints:
   highlight:
-  - {path: readme.html}
-
+  - path: readme.html
